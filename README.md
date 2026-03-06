@@ -98,9 +98,20 @@ interface StorageAdapter {
 }
 ```
 
+## Deployment (Docker)
+
+```bash
+docker compose up --build -d
+```
+
+- App is served at **http://localhost**
+- Backend runs internally (not exposed); nginx proxies `/api` and `/socket.io`
+- To run on a different port: `docker compose up -d -e PORT=8080` or edit `docker-compose.yml`
+
 ## Scripts
 
 ```bash
-pnpm dev        # Start backend + frontend (hot reload)
-pnpm build      # Build both for production
+pnpm dev            # Start backend + frontend (hot reload)
+pnpm build          # Build both for production
+docker compose up   # Run with Docker
 ```
