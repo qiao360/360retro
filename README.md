@@ -100,13 +100,32 @@ interface StorageAdapter {
 
 ## Deployment (Docker)
 
+### Local / quick start
+
 ```bash
 docker compose up --build -d
 ```
 
-- App is served at **http://localhost**
-- Backend runs internally (not exposed); nginx proxies `/api` and `/socket.io`
-- To run on a different port: `docker compose up -d -e PORT=8080` or edit `docker-compose.yml`
+App is served at **http://localhost**. Backend runs internally; nginx proxies `/api` and `/socket.io`.
+
+### Production (with HTTPS)
+
+1. Edit `Caddyfile` — replace `retro.yourdomain.com` with your domain
+2. Point your domain's DNS A record to the server IP
+3. Run on the server:
+
+```bash
+git clone https://github.com/qiao360/360retro.git
+cd 360retro
+docker compose up --build -d
+```
+
+Caddy automatically obtains and renews an SSL certificate via Let's Encrypt.
+
+**To deploy updates:**
+```bash
+git pull && docker compose up --build -d
+```
 
 ## Scripts
 

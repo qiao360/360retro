@@ -1,0 +1,6 @@
+# Replace with your domain. Caddy will automatically obtain an SSL certificate.
+# To use an IP address only (no domain): replace the domain with the IP,
+# but note that Let's Encrypt requires a domain for HTTPS.
+retro.yourdomain.com {
+    reverse_proxy frontend:80
+}
