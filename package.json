@@ -1,0 +1,14 @@
+{
+  "name": "360retro",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --kill-others --names backend,frontend --prefix-colors cyan,green \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+    "build": "pnpm --filter backend build && pnpm --filter frontend build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "vue-demi"]
+  }
+}
