@@ -102,6 +102,10 @@ export function registerHandlers(io: Server, socket: Socket): void {
 
     const idx = card.votes.indexOf(payload.participantId)
     if (idx === -1) {
+      const totalVotes = session.cards.reduce(
+        (n, c) => n + (c.votes.includes(payload.participantId) ? 1 : 0), 0,
+      )
+      if (totalVotes >= session.voteLimit) return
       card.votes.push(payload.participantId)
     } else {
       card.votes.splice(idx, 1)

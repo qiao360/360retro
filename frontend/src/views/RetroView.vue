@@ -56,6 +56,14 @@ function hideAll() {
 const hasHidden = computed(() => store.session?.cards.some((c) => c.hidden) ?? false)
 const hasVisible = computed(() => store.session?.cards.some((c) => !c.hidden) ?? false)
 
+const votesUsed = computed(() => {
+  if (!identity.value || !store.session) return 0
+  return store.session.cards.reduce(
+    (n, c) => n + (c.votes.includes(identity.value!.id) ? 1 : 0), 0,
+  )
+})
+const voteLimit = computed(() => store.session?.voteLimit ?? 3)
+
 const onlineParticipants = computed(() =>
   store.session?.participants.filter((p) => p.online) ?? [],
 )
@@ -92,6 +100,18 @@ function avatarColor(id: string): string {
           >
             {{ p.name.charAt(0).toUpperCase() }}
           </div>
+        </div>
+
+        <!-- Vote budget -->
+        <div
+          v-if="store.session"
+          class="flex items-center gap-1 text-xs font-medium px-2.5 py-1.5 rounded-lg"
+          :class="votesUsed >= voteLimit
+            ? 'bg-rose-50 text-rose-500'
+            : 'bg-gray-100 text-gray-500'"
+        >
+          <span>♥</span>
+          <span>{{ votesUsed }} / {{ voteLimit }}</span>
         </div>
 
         <!-- Reveal / Hide all -->

@@ -37,6 +37,7 @@ app.post('/api/sessions', (req, res) => {
     id: nanoid(6),
     name: name.trim(),
     createdAt: Date.now(),
+    voteLimit: 3,
     columns: DEFAULT_COLUMNS,
     cards: [],
     groups: [],

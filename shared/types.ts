@@ -2,6 +2,7 @@ export interface Session {
   id: string
   name: string
   createdAt: number
+  voteLimit: number
   columns: Column[]
   cards: Card[]
   groups: Group[]

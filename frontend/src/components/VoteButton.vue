@@ -15,9 +15,21 @@ const votes = computed(() => card.value?.votes ?? [])
 const hasVoted = computed(() =>
   identity.value ? votes.value.includes(identity.value.id) : false,
 )
-// Disable only on other people's hidden cards (can't see = shouldn't vote)
+
+const votesUsed = computed(() => {
+  if (!identity.value || !store.session) return 0
+  return store.session.cards.reduce(
+    (n, c) => n + (c.votes.includes(identity.value!.id) ? 1 : 0), 0,
+  )
+})
+const voteLimit = computed(() => store.session?.voteLimit ?? 3)
+const limitReached = computed(() => votesUsed.value >= voteLimit.value)
+
 const isOwn = computed(() => identity.value?.id === card.value?.authorId)
-const disabled = computed(() => !isOwn.value && (card.value?.hidden ?? false))
+const disabled = computed(() =>
+  (!isOwn.value && (card.value?.hidden ?? false)) ||
+  (!hasVoted.value && limitReached.value),
+)
 
 function toggle() {
   if (!identity.value || disabled.value) return
